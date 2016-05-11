@@ -24,15 +24,9 @@ jar{
 
 task "server-start"(dependsOn:[jar]){
 	ant.java(jar: jar.archivePath, fork:true){
-//		jvmarg("value": "com.sun.management.jmxremote")
+		jvmarg("value": "-Dcom.sun.management.jmxremote")
+		jvmarg("value": "-Dcom.sun.management.jmxremote.port=1617")
+		jvmarg("value": "-Dcom.sun.management.jmxremote.authenticate=false")
+		jvmarg("value": "-Dcom.sun.management.jmxremote.ssl=false")
 	}
-
 }
-
-//task "server-start"(type: JavaExec){
-//		classpath = files('build/libs/*.jar')
-////	-Dcom.sun.management.jmxremote
-////	-Dcom.sun.management.jmxremote.port=1617
-////	-Dcom.sun.management.jmxremote.authenticate=false
-////	-Dcom.sun.management.jmxremote.ssl=false
-//}
