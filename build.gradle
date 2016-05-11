@@ -1,0 +1,38 @@
+group 'com.mageddo.tests'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+	mavenLocal()
+	mavenCentral()
+}
+
+dependencies {
+	testCompile group: 'junit', name: 'junit', version: '4.11'
+}
+
+jar{
+	manifest {
+		attributes 'Main-Class': 'com.mageddo.test.jmxhelloworld.bean.SimpleAgent'
+	}
+	from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+}
+
+task "server-start"(dependsOn:[jar]){
+	ant.java(jar: jar.archivePath, fork:true){
+//		jvmarg("value": "com.sun.management.jmxremote")
+	}
+
+}
+
+//task "server-start"(type: JavaExec){
+//		classpath = files('build/libs/*.jar')
+////	-Dcom.sun.management.jmxremote
+////	-Dcom.sun.management.jmxremote.port=1617
+////	-Dcom.sun.management.jmxremote.authenticate=false
+////	-Dcom.sun.management.jmxremote.ssl=false
+//}
